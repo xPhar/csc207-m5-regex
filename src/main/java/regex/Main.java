@@ -59,7 +59,26 @@ public class Main {
      */
     public static List<String> extractEmails(String str) {
         if (str == null) return List.of();
-        final Pattern pattern = Pattern.compile("\\w+(@mail\\.utoronto\\.ca|@utoronto\\.ca)");
+        String emailLocalRegex = new StringBuilder()
+                .append("[")
+                .append("a-zA-Z0-9")
+                .append("!#$%&'*+\\-/=?^_`{|}~")
+                .append("]")
+                .append("(")
+                    .append("[")
+                    .append("a-zA-Z0-9")
+                    .append("!#$%&'*+\\-/=?^_`{|}~")
+                    .append("]")
+                .append("|")
+                    .append("\\.")
+                    .append("[")
+                    .append("a-zA-Z0-9")
+                    .append("!#$%&'*+\\-/=?^_`{|}~")
+                    .append("]")
+                .append(")*")
+                .toString();
+        String emailAddressRegex = "(@mail\\.utoronto\\.ca|@utoronto\\.ca)";
+        final Pattern pattern = Pattern.compile(emailLocalRegex + emailAddressRegex);
         final Matcher matcher = pattern.matcher(str);
         final List<String> result = new ArrayList<>();
         while (matcher.find()) {
